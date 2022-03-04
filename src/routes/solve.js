@@ -156,7 +156,7 @@ function commonSolve (req, res, next){
       }
 
     }).then( (result) => {
-      /*
+      
       const timeComputeServerCallComplete = performance.now()
 
       let computeTimings = computeServerTiming.get('server-timing')
