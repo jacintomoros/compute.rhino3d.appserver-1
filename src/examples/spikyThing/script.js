@@ -24,7 +24,7 @@ rhino3dm().then(async m => {
   rhino = m // global
 
   init()
-  compute()
+  //compute()
 })
 
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+        <link rel="manifest" href="../favicon/site.webmanifest">
+        <title>Landscape Design</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: monospace;
+                background-color: black;
+            }
+            #info {
+              text-align: center;
+              background-color: transparent;
+              color: #fff;
+              margin: 10px;
+            }
+            canvas { width: 100%; height: 100%; }
+            input[type=range] { width: 100%; }
+            #container { position: relative; }
+            #container canvas, #overlay { position: absolute; }
+            #overlay { z-index: 1; width: 100%; }
+            #overlay div { padding: 5px; }
+            #loader {
+                border: 5px solid #f3f3f3; /* Light grey */
+                border-top: 5px solid #3d3d3d; /* Grey */
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                z-index: 2;
+                display: none; /* start hidden */
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loader"></div> 
+        <div id="container">
+            <div id="overlay">
+                <div id="info">
+                  Landscape Design (click at least once to start!)
+                    <br>
+                    <div>
+                      <label for="xSize">xSize</label>
+                      <input type="range" id="xSize" min="0" max="100" value="20" step="1">
+                    </div>
+                    <div>
+                      <label for="ySize">ySize</label>
+                      <input type="range" id="ySize" min="0" max="100" value="15" step="1">
+                    </div>
+                    <div>
+                      <label for="resSize">resSize</label>
+                      <input type="range" id="resSize" min="0" max="10" value="2" step="1">
+                    </div>
+                    <div><button id="downloadButton" disabled>Download</button></div>
+                </div>
+            </div>
+
+            <div id="canvas"></div>
+        </div>
+
+        <script type="module" src="./script.js"></script>
+    </body>
+</html>
