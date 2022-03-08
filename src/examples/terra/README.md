@@ -1,4 +1,4 @@
-# UNPUTS
+# INPUTS
 01_Create Own Landscape
 
 02_Input already existing landscape
