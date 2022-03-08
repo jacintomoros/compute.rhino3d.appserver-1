@@ -1,7 +1,6 @@
-# UNPUTS
-01_Create Own Landscape
-
-02_Input already existing landscape
+# INPUTS
+- **01_Create Own Landscape**
+- **02_Input already existing landscape**
 
 ## Features Creating Landscape
 - **Easy to get started**: clicking you modelate your landscape
@@ -12,3 +11,8 @@
 - **Easy to get started**: Import heightmapper image
 - **Easy to customize**: Extract analyze data and play with changes
 - **Download**: Download result
+
+## PLUGINS
+- **BISON**
+- **LADYBUG**
+- **NOT SURE......DOCOFOSSOR**
