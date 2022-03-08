@@ -11,7 +11,7 @@ loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
 const data = {
   definition: 'terra.gh',
   inputs: {
-  'points': []
+    'points': [] // start with an empty list (corresponds to "points" input)
   }
 }
 
@@ -41,41 +41,64 @@ let scene, camera, renderer, controls
 /**
  * Sets up the scene, camera, renderer, lights and controls and starts the animation
  */
- function init() {
+function init() {
 
-  // Rhino models are z-up, so set this as the default
-  THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 0, 1 );
+    // Rhino models are z-up, so set this as the default
+    THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 0, 1 );
 
-  // create a scene and a camera
-  scene = new THREE.Scene()
-  scene.background = new THREE.Color(1, 1, 1)
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
-  camera.position.set(1, -1, 1) // like perspective view
+    // create a scene and a camera
+    scene = new THREE.Scene()
+    //scene.background = new THREE.Color(1, 1, 1)
 
-  // very light grey for background, like rhino
-  scene.background = new THREE.Color('black')
+    ///////////////////////////////////////////////////////////////////////////
 
-  // create the renderer and add it to the html
-  renderer = new THREE.WebGLRenderer({ antialias: true })
-  renderer.setPixelRatio( window.devicePixelRatio )
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  document.body.appendChild(renderer.domElement)
+    // top view
+    // near/far set up to draw on z=0 plane
+    const frustumSize = 10000
+    const aspect = window.innerWidth / window.innerHeight;
+		camera = new THREE.OrthographicCamera( frustumSize * aspect / - 200, frustumSize * aspect / 200, frustumSize / 200, frustumSize / - 200, -100, 1 );
 
-  // add some controls to orbit the camera
-  controls = new OrbitControls(camera, renderer.domElement)
+    ///////////////////////////////////////////////////////////////////////////
 
-  // add a directional light
-  const directionalLight = new THREE.DirectionalLight( 0xffffff )
-  directionalLight.intensity = 2
-  scene.add( directionalLight )
+    // very light grey for background, like rhino
+    //scene.background = new THREE.Color('black')
 
-  const ambientLight = new THREE.AmbientLight()
-  scene.add( ambientLight )
+    // create the renderer and add it to the html
+    renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setPixelRatio( window.devicePixelRatio )
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    document.body.appendChild(renderer.domElement)
 
-  // handle changes in the window size
-  window.addEventListener( 'resize', onWindowResize, false )
+    // add some controls to orbit the camera
+    // controls = new OrbitControls(camera, renderer.domElement)
+    // controls.enableRotate = false
 
-  animate()
+    // add a directional light
+    const directionalLight = new THREE.DirectionalLight( 0xffffff )
+    directionalLight.intensity = 2
+    scene.add( directionalLight )
+
+    const ambientLight = new THREE.AmbientLight()
+    scene.add( ambientLight )
+
+    let cubeMap
+    // load hdr cube map
+    // cubeMap = new HDRCubeTextureLoader()
+    //     .setPath( './textures/cube/pisaHDR/' )
+    //     .setDataType( THREE.UnsignedByteType )
+    //     .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ] )
+    
+    // or, load cube map
+    cubeMap = new THREE.CubeTextureLoader()
+        .setPath('gradient/')
+        .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] )
+    
+    scene.background = cubeMap
+
+    // handle changes in the window size
+    window.addEventListener( 'resize', onWindowResize, false )
+
+    animate()
 }
 
 /**
@@ -174,11 +197,7 @@ function collectResults(responseJson) {
         // }, false)
 
         ///////////////////////////////////////////////////////////////////////
-        scene.traverse(child => {
-          if (!child.isLight) {
-              scene.remove(child)
-          }
-      })
+
         // add object graph from rhino model to three.js scene
         scene.add( object )
 
@@ -237,7 +256,6 @@ function onClick( event ) {
   compute()
 
 }
-
 /**
  * The animation loop!
  */
