@@ -1,7 +1,6 @@
 # INPUTS
-01_Create Own Landscape
-
-02_Input already existing landscape
+- **01_Create Own Landscape**
+- **02_Input already existing landscape**
 
 ## Features Creating Landscape
 - **Easy to get started**: clicking you modelate your landscape
