@@ -56,7 +56,7 @@ function init() {
     // near/far set up to draw on z=0 plane
     const frustumSize = 10000
     const aspect = window.innerWidth / window.innerHeight;
-		camera = new THREE.OrthographicCamera( frustumSize * aspect / - 200, frustumSize * aspect / 200, frustumSize / 200, frustumSize / - 200, 100, 1 );
+		camera = new THREE.OrthographicCamera( frustumSize * aspect / - 200, frustumSize * aspect / 200, frustumSize / 200, frustumSize / - 200, -100, 1 );
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -80,6 +80,7 @@ function init() {
 
     const ambientLight = new THREE.AmbientLight()
     scene.add( ambientLight )
+
 
     // handle changes in the window size
     window.addEventListener( 'resize', onWindowResize, false )
