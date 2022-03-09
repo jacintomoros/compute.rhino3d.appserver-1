@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="apple-touch-icon" sizes="180x180" href="../favicon/jac-apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon/jac-favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../favicon/jac-favicon-16x16.png">
+        <link rel="manifest" href="../favicon/site.webmanifest">
+        <title>Convert IMG </title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="loader"></div> 
+        <div id="container">
+            <div id="overlay">
+                </div>
+                   <label for="img">Upload Image</label>
+                   <input type="file" id="img" name="img" accept = "image/*">
+                   <p id="obPath"></p>
+                </div>
+
+                <div>
+                  <label for="Maximum height">Maximum height</label>
+                  <input type="range" id="Maximum height" min="0" max="200" value="120" step="1">
+                </div>
+
+                <div>
+                  <label for="Resolution">Resolution</label>
+                  <input type="range" id="Resolution" min="1" max="100" value="8" step="1">
+                </div>
+
+                <div><button id="downloadButton" disabled>Download</button></div>
+                <div><a href="convert_landscape.gh" download="convert_landscape.gh.html">Save source code</a></div>
+            
+            </div>
+        </div>
+        <script type="module" src="02_script_convert_img.js"></script>
+    </body>
+</html>

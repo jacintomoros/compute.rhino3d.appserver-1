@@ -3,27 +3,64 @@ html{height: 100%;
     background: rgb(238,174,202);
     background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
 }
-h1 {
+
+#terra{
+  position: absolute; /* taken out of the normal flow of the document */
+  top: 30%; /* moved down by 50% of the screen height */
+  width: 100%; /* needs to be defined to keep the default block behavior */
+  text-align: center;
+  margin: 0; /* again, for perfect center */
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-transform: uppercase;
+  font-size: 100px;
+ }
+
+#create{
     position: absolute; /* taken out of the normal flow of the document */
-    top: 50%; /* moved down by 50% of the screen height */
-    width: 70%; /* needs to be defined to keep the default block behavior */
-    text-align: center;
-    margin: 0; /* again, for perfect center */
-    font-family: "Lucida Console", "Courier New", monospace;
-    text-transform: uppercase;
-    font-size: 40px;
-   }
-h2 {
-    position: absolute; /* taken out of the normal flow of the document */
-    top: 50%; /* moved down by 50% of the screen height */
-    width: 130%; /* needs to be defined to keep the default block behavior */
+    top: 20%; /* moved down by 50% of the screen height */
+    width: 100%; /* needs to be defined to keep the default block behavior */
     text-align: center;
     margin: 0; /* again, for perfect center */
     font-family: "Lucida Console", "Courier New", monospace;
     text-transform: uppercase;
     font-size: 30px;
    }
-a {
-  color:rgb(255, 255, 255);
-text-decoration:none;
+#create:hover{
+  background-image: url("https://camo.githubusercontent.com/3bbf3cd06af4cd1f819c3de2e07afc46799a675ea0f8ad1531ec14358513888d/68747470733a2f2f692e696d6775722e636f6d2f61704e324c414f2e706e67");
+  background-size:cover;  
+  background-position: 100%;
 }
+
+#convert{
+    position: absolute; /* taken out of the normal flow of the document */
+    top: 40%; /* moved down by 50% of the screen height */
+    width: 100%; /* needs to be defined to keep the default block behavior */
+    text-align: center;
+    margin: 0; /* again, for perfect center */
+    font-family: "Lucida Console", "Courier New", monospace;
+    text-transform: uppercase;
+    font-size: 30px;
+   }
+#convert:hover{
+  background-image: url("https://www.mapzen.com/assets/images/tangram-heightmapper/great_lakes.jpg");
+  background-size:cover; 
+  background-position: 100%;
+   }
+
+#analyze{
+    position: absolute; /* taken out of the normal flow of the document */
+    top:60%; /* moved down by 50% of the screen height */
+    width: 100%; /* needs to be defined to keep the default block behavior */
+    text-align: center;
+    margin: 0; /* again, for perfect center */
+    font-family: "Lucida Console", "Courier New", monospace;
+    text-transform: uppercase;
+    font-size: 30px;
+
+   }
+#analyze:hover{
+  background-image: url("https://jdmollard.com/wp-content/uploads/2016/06/terrain-mapping.jpg");
+  background-size:cover; 
+  background-position: 100%;
+   }
+

@@ -8,11 +8,41 @@ import { Rhino3dmLoader } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examp
 const loader = new Rhino3dmLoader()
 loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
 
-// initialise 'data' object that will be used by compute()
-const data = {
-  definition: 'import_terrain.gh',
-  inputs: getInputs()
-}
+// set up gh definition
+const definition = 'convert_landscape.gh'
+
+// adding inputs
+
+const fileInput = document.getElementById("img");
+
+fileInput.addEventListener("change", (e) => {
+    // get a reference to the file
+    const file = e.target.files[0];
+
+    // encode the file using the FileReader API
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // use a regex to remove data url part
+    obPath.innerText= reader.result.replace("data:", "").replace(/^.+,/, "");
+      // log to console
+      // logs wL2dvYWwgbW9yZ...
+      String(obPath);
+    };
+    reader.readAsDataURL(file);
+  });
+
+
+
+const obPath = document.getElementById('obPath')
+obPath.addEventListener('input', onChange, false)
+
+const height_slider = document.getElementById( 'Maximum height' )
+height_slider.addEventListener( 'mouseup', onSliderChange, false )
+height_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const res_slider = document.getElementById( 'Resolution' )
+res_slider.addEventListener( 'mouseup', onSliderChange, false )
+res_slider.addEventListener( 'touchend', onSliderChange, false )
 
 // globals
 let rhino, doc
@@ -21,7 +51,7 @@ rhino3dm().then(async m => {
     rhino = m
 
     init()
-    compute()
+    //compute()
 })
 
 const downloadButton = document.getElementById("downloadButton")
@@ -30,34 +60,6 @@ downloadButton.onclick = download
   /////////////////////////////////////////////////////////////////////////////
  //                            HELPER  FUNCTIONS                            //
 /////////////////////////////////////////////////////////////////////////////
-
-/**
- * Gets <input> elements from html and sets handlers
- * (html is generated from the grasshopper definition)
- */
-function getInputs() {
-  const inputs = {}
-  for (const input of document.getElementsByTagName('input')) {
-    switch (input.type) {
-      case 'number':
-        inputs[input.id] = input.valueAsNumber
-        input.onchange = onSliderChange
-        break
-      case 'range':
-        inputs[input.id] = input.valueAsNumber
-        input.onmouseup = onSliderChange
-        input.ontouchend = onSliderChange
-        break
-      case 'checkbox':
-        inputs[input.id] = input.checked
-        input.onclick = onSliderChange
-        break
-      default:
-        break
-    }
-  }
-  return inputs
-}
 
 // more globals
 let scene, camera, renderer, controls
@@ -106,24 +108,35 @@ function init() {
  * Call appserver
  */
 async function compute() {
-  // construct url for GET /solve/definition.gh?name=value(&...)
-  const url = new URL('/solve/' + data.definition, window.location.origin)
-  Object.keys(data.inputs).forEach(key => url.searchParams.append(key, data.inputs[key]))
-  console.log(url.toString())
-  
+  const data = {
+    definition: definition,
+    inputs: {
+     'Maximum height': height_slider.valueAsNumber,
+     'Resolution': res_slider.valueAsNumber,
+     'Upload Image': obPath.innerText,
+      }
+  }
+
+  showSpinner(true)
+
+  console.log(data.inputs)
+
+  const request = {
+    'method':'POST',
+    'body': JSON.stringify(data),
+    'headers': {'Content-Type': 'application/json'}
+  }
+
   try {
-    const response = await fetch(url)
-  
-    if(!response.ok) {
-      // TODO: check for errors in response json
+    const response = await fetch('/solve', request)
+
+    if(!response.ok)
       throw new Error(response.statusText)
-    }
 
     const responseJson = await response.json()
-
     collectResults(responseJson)
 
-  } catch(error) {
+  } catch(error){
     console.error(error)
   }
 }
@@ -215,26 +228,18 @@ function decodeItem(item) {
  * Called when a slider value changes in the UI. Collect all of the
  * slider values and call compute to solve for a new scene
  */
-function onSliderChange () {
-  showSpinner(true)
-  // get slider values
-  let inputs = {}
-  for (const input of document.getElementsByTagName('input')) {
-    switch (input.type) {
-    case 'number':
-      inputs[input.id] = input.valueAsNumber
-      break
-    case 'range':
-      inputs[input.id] = input.valueAsNumber
-      break
-    case 'checkbox':
-      inputs[input.id] = input.checked
-      break
-    }
-  }
-  
-  data.inputs = inputs
 
+ function onChange() {
+
+  // show spinner
+  document.getElementById('loader').style.display = 'block';
+
+  compute();
+}
+
+ function onSliderChange() {
+  // show spinner
+  document.getElementById('loader').style.display = 'flex'
   compute()
 }
 
