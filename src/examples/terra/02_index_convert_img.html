@@ -7,7 +7,48 @@
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon/jac-favicon-16x16.png">
         <link rel="manifest" href="../favicon/site.webmanifest">
         <title>Convert IMG </title>
-        <link rel="stylesheet" href="style.css">
+		<style>
+			body { margin: 0; }
+
+			/* CSS for a spinning animation */ 
+			#loader {
+                border: 5px solid #f3f3f3; /* Light grey */
+                border-top: 5px solid #3d3d3d; /* Grey */
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            /* style user strings pop-up */
+            #container {
+                position: absolute;
+                z-index: 100;
+                top: 0;
+                margin: 10px;
+                padding: 10px;
+                background-color: black;
+                color: white;
+                width: 250px;
+                font-family: monospace;
+            }
+
+            table { border: none; border-collapse: collapse; }
+            table td {
+                border-left: 1px solid white;
+                padding: 10px;
+            }
+            table td:first-child { border-left: none; }
+
+		</style>
     </head>
     <body>
         <div id="loader"></div> 
@@ -18,20 +59,67 @@
                    <input type="file" id="img" name="img" accept = "image/*">
                    <p id="obPath"></p>
                 </div>
-
                 <div>
-                  <label for="Maximum height">Maximum height</label>
-                  <input type="range" id="Maximum height" min="0" max="200" value="120" step="1">
+                    <input type="text" id="Min Elevation" name="Min Elevation" size="25" placeholder="Enter Min Elevation">
+                    <label for="Min Elevation">Text</label>
+                    <input type="text" id="Max Elevation" name="Max Elevation" size="25" placeholder="Enter Max Elevation">
+                    <label for="Max Elevation">Text</label>
                 </div>
 
                 <div>
-                  <label for="Resolution">Resolution</label>
-                  <input type="range" id="Resolution" min="1" max="100" value="8" step="1">
-                </div>
+                    <label for="Max Slope">Max Slope</label>
+                    <input type="range" id="Max Slope" min="0" max="180" value="144" step="1">
+                  </div>
+                  <div>
+                    <label for="Min Slope">Min Slope</label>
+                    <input type="range" id="Min Slope" min="0" max="180" value="96" step="1">
+                  </div>
+                  <div>
+                    <label for="Max Conca">Max Conca</label>
+                    <input type="range" id="Max Conca" min="-100" max="100" value="100" step="1">
+                  </div>
+                  <div>
+                    <label for="Resolution">Resolution</label>
+                    <input type="range" id="Resolution" min="1" max="100" value="5" step="1">
+                  </div>
+                  <div>
+                    <label for="Min Conca">Min Conca</label>
+                    <input type="range" id="Min Conca" min="-100" max="100" value="0" step="1">
+                  </div>
+                  <div>
+                    <label for="Max Roughness">Max Roughness</label>
+                    <input type="range" id="Max Roughness" min="0" max="100" value="31" step="1">
+                  </div>
+                  <div>
+                    <label for="Min Roughness">Min Roughness</label>
+                    <input type="range" id="Min Roughness" min="0" max="100" value="16" step="1">
+                  </div>
+                  <div>
+                    <label for="Analyze">Analyze</label>
+                    <input type="range" id="Analyze" min="0" max="9" value="2" step="1">
+                  </div>
+                  <div>
+                    <label for="X Vector">X Vector</label>
+                    <input type="range" id="X Vector" min="0" max="10" value="2" step="1">
+                  </div>
+                  <div>
+                    <label for="Y Vector">Y Vector</label>
+                    <input type="range" id="Y Vector" min="0" max="10" value="5" step="1">
+                  </div>
+                  <div>
+                    <label for="Z Vector">Z Vector</label>
+                    <input type="range" id="Z Vector" min="0" max="10" value="10" step="1">
+                  </div>
+                  <div>
+                    <label for="Max Pend">Max Pend</label>
+                    <input type="range" id="Max Pend" min="0" max="360" value="31" step="1">
+                  </div>
+                  <div>
+                    <label for="Min Pend">Min Pend</label>
+                    <input type="range" id="Min Pend" min="0" max="100" value="16" step="1">
+                  </div>
 
-                <div><button id="downloadButton" disabled>Download</button></div>
-                <div><a href="convert_landscape.gh" download="convert_landscape.gh.html">Save source code</a></div>
-            
+                <div><button id="downloadButton" disabled>Download</button></div>            
             </div>
         </div>
         <script type="module" src="02_script_convert_img.js"></script>

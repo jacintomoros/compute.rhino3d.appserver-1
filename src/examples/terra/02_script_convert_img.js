@@ -36,22 +36,77 @@ fileInput.addEventListener("change", (e) => {
 const obPath = document.getElementById('obPath')
 obPath.addEventListener('input', onChange, false)
 
-const height_slider = document.getElementById( 'Maximum height' )
-height_slider.addEventListener( 'mouseup', onSliderChange, false )
-height_slider.addEventListener( 'touchend', onSliderChange, false )
+const maxelev = document.getElementById('Max Elevation')
+maxelev.addEventListener('input', onChange, false)
+
+const minelev = document.getElementById('Min Elevation')
+minelev.addEventListener('input', onChange, false)
 
 const res_slider = document.getElementById( 'Resolution' )
 res_slider.addEventListener( 'mouseup', onSliderChange, false )
 res_slider.addEventListener( 'touchend', onSliderChange, false )
 
+const maxslope_slider = document.getElementById( 'Max Slope' )
+maxslope_slider.addEventListener( 'mouseup', onSliderChange, false )
+maxslope_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const minslope_slider = document.getElementById( 'Min Slope' )
+minslope_slider.addEventListener( 'mouseup', onSliderChange, false )
+minslope_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const maxconca_slider = document.getElementById( 'Max Conca' )
+maxconca_slider.addEventListener( 'mouseup', onSliderChange, false )
+maxconca_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const minconca_slider = document.getElementById( 'Min Conca' )
+minconca_slider.addEventListener( 'mouseup', onSliderChange, false )
+minconca_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const maxrou_slider = document.getElementById( 'Max Roughness' )
+maxrou_slider.addEventListener( 'mouseup', onSliderChange, false )
+maxrou_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const minrou_slider = document.getElementById( 'Min Roughness' )
+minrou_slider.addEventListener( 'mouseup', onSliderChange, false )
+minrou_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const anal_slider = document.getElementById( 'Analyze' )
+anal_slider.addEventListener( 'mouseup', onSliderChange, false )
+anal_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const xvec_slider = document.getElementById( 'X Vector' )
+xvec_slider.addEventListener( 'mouseup', onSliderChange, false )
+xvec_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const yvec_slider = document.getElementById( 'Y Vector' )
+yvec_slider.addEventListener( 'mouseup', onSliderChange, false )
+yvec_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const zvec_slider = document.getElementById( 'Z Vector' )
+zvec_slider.addEventListener( 'mouseup', onSliderChange, false )
+zvec_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const maxpend_slider = document.getElementById( 'Max Pend' )
+maxpend_slider.addEventListener( 'mouseup', onSliderChange, false )
+maxpend_slider.addEventListener( 'touchend', onSliderChange, false )
+
+const minpend_slider = document.getElementById( 'Min Pend' )
+minpend_slider.addEventListener( 'mouseup', onSliderChange, false )
+minpend_slider.addEventListener( 'touchend', onSliderChange, false )
+
+
 // globals
+
+let points = [];
 let rhino, doc
 
 rhino3dm().then(async m => {
+    console.log('Loaded rhino3dm.')
     rhino = m
 
     init()
-    //compute()
+    rndPts()
+    compute()
 })
 
 const downloadButton = document.getElementById("downloadButton")
@@ -60,6 +115,70 @@ downloadButton.onclick = download
   /////////////////////////////////////////////////////////////////////////////
  //                            HELPER  FUNCTIONS                            //
 /////////////////////////////////////////////////////////////////////////////
+
+function rndPts() {
+  // generate Inital point
+  const startPts = [
+    { x: 27, y: 8, z: 0 }
+]
+const cntPts = startPts.length
+
+  for (let i = 0; i < cntPts; i++) {
+    const x = startPts[i].x
+    const y = startPts[i].y
+    const z = startPts[i].z
+
+    const pt = "{\"X\":" + x + ",\"Y\":" + y + ",\"Z\":" + z + "}"
+
+    console.log( `x ${x} y ${y}` )
+
+    points.push(pt)
+
+    //viz in three
+    const icoGeo = new THREE.SphereGeometry(50)
+    const icoMat = new THREE.MeshNormalMaterial(50)
+    const ico = new THREE.Mesh( icoGeo, icoMat )
+    ico.name = 'ico'
+    ico.position.set( x, y, z)
+    scene.add( ico )
+    
+    let tcontrols = new TransformControls( camera, renderer.domElement )
+    tcontrols.enabled = true
+    tcontrols.attach( ico )
+    tcontrols.showZ = false
+    tcontrols.addEventListener( 'dragging-changed', onChange )
+    tcontrols.setSize(.5)
+    scene.add(tcontrols)
+    
+  }
+
+}
+
+let dragging = false
+
+function onChange() {
+  dragging = ! dragging
+  if ( !dragging ) {
+    // update points position
+    points = []
+    scene.traverse(child => {
+      if ( child.name === 'ico' ) {
+        const pt = "{\"X\":" + child.position.x + ",\"Y\":" + child.position.y + ",\"Z\":" + child.position.z + "}"
+        points.push( pt )
+        console.log(pt)
+      }
+    }, false)
+
+    compute()
+
+    controls.enabled = true
+    return 
+}
+
+  controls.enabled = false
+
+}
+
 
 // more globals
 let scene, camera, renderer, controls
@@ -98,6 +217,19 @@ function init() {
     const ambientLight = new THREE.AmbientLight()
     scene.add( ambientLight )
 
+    let cubeMap
+ // load hdr cube map
+ // cubeMap = new HDRCubeTextureLoader()
+ //     .setPath( './textures/cube/pisaHDR/' )
+ //     .setDataType( THREE.UnsignedByteType )
+ //     .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ] )
+ 
+ // or, load cube map
+      cubeMap = new THREE.CubeTextureLoader()
+     .setPath('./red ocean/')
+     .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] )
+ 
+    scene.background = cubeMap
     // handle changes in the window size
     window.addEventListener( 'resize', onWindowResize, false )
 
@@ -111,9 +243,24 @@ async function compute() {
   const data = {
     definition: definition,
     inputs: {
-     'Maximum height': height_slider.valueAsNumber,
      'Resolution': res_slider.valueAsNumber,
      'Upload Image': obPath.innerText,
+     'Max Elevation': maxelev.value,
+     'Min Elevation': minelev.value,
+     'Max Slope': maxslope_slider.valueAsNumber,
+     'Min Slope': minslope_slider.valueAsNumber,
+     'Max Conca': maxconca_slider.valueAsNumber,
+     'Min Conca': minconca_slider.valueAsNumber,
+     'Max Roughness': maxrou_slider.valueAsNumber,
+     'Min Roughness': minrou_slider.valueAsNumber,
+     'Analyze': anal_slider.valueAsNumber,
+     'X Vector': xvec_slider.valueAsNumber,
+     'Y Vector': yvec_slider.valueAsNumber,
+     'Z Vector': zvec_slider.valueAsNumber,
+     'Max Pend': maxpend_slider.valueAsNumber,
+     'Min Pend': minpend_slider.valueAsNumber,
+     'point': points
+
       }
   }
 
@@ -229,13 +376,13 @@ function decodeItem(item) {
  * slider values and call compute to solve for a new scene
  */
 
- function onChange() {
+//  function onChange() {
 
-  // show spinner
-  document.getElementById('loader').style.display = 'block';
+//   // show spinner
+//   document.getElementById('loader').style.display = 'block';
 
-  compute();
-}
+//   compute();
+// }
 
  function onSliderChange() {
   // show spinner

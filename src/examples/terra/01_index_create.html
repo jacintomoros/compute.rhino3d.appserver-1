@@ -14,8 +14,13 @@
             }
             canvas { width: 100%; height: 100%; }
             input[type=range] { width: 100%; }
-            #container { position: relative; }
-            #container canvas, #overlay { position: absolute; }
+            #container {
+		    		position: absolute;
+		    		width: 100%;
+    				height: 100%;
+			      }     
+            /* #container canvas,  */
+            #overlay { position: absolute; }
             #overlay { z-index: 1; width: 100%; }
             #overlay div { padding: 5px; }
             #loader {
@@ -30,6 +35,7 @@
                 left: 50%;
                 z-index: 2;
             }
+            
             @keyframes spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
@@ -39,11 +45,13 @@
     <body>
         <div id="loader"></div> 
         <div id="container">
+          <div id="slider"></div>
             <div id="overlay">
                 <div id="info">
                   Landscape Design (click at least once to start!)
                     <br>
                     <div><button id="downloadButton" disabled>Download</button></div>
+                    <!-- <div><button id="computeButton" disabled>Change</button></div> -->
                 </div>
             </div>
             <div id="canvas"></div>
@@ -79,6 +87,9 @@ rhino3dm().then(async m => {
 const downloadButton = document.getElementById("downloadButton")
 downloadButton.onclick = download
 
+// const computeButton = document.getElementById("computeButton")
+// computeButton.onclick = onClick
+
 const mouse = new THREE.Vector3()
 window.addEventListener( 'click', onClick, false);
 
@@ -90,7 +101,7 @@ window.addEventListener( 'click', onClick, false);
 let container, renderer, controls;
 let cameraL, cameraR;
 let scene
-let sliderPos = window.innerWidth / 2;
+let sliderPos = window.innerWidth / 4;
 
 /**
  * Sets up the scene, camera, renderer, lights and controls and starts the animation
@@ -103,20 +114,20 @@ function init() {
 
     // create sceneL and a cameraL top view
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(1, 1, 1);
+    scene.background = new THREE.Color('black')
 
     // top view
     // near/far set up to draw on z=0 plane
     const frustumSize = 10000
     const aspect = window.innerWidth / window.innerHeight;
-	cameraL = new THREE.OrthographicCamera( frustumSize * aspect / - 200, frustumSize * aspect / 200, frustumSize / 200, frustumSize / - 200, -1, 1 );
+	  cameraL = new THREE.OrthographicCamera( frustumSize * aspect / - 200, frustumSize * aspect / 200, frustumSize / 200, frustumSize / - 200, -1, 1 );
 
     ///////////////////////////////////////////////////////////////////////////
 // create sceneL and a cameraL top view
 
     // top view
     // near/far set up to draw on z=0 plane
-    cameraR= new THREE.PerspectiveCamera(45, (window.innerWidth/2) / window.innerHeight, 1, 1)
+    cameraR= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1)
     cameraR.position.set(1, -1, 1)
 
     controls = new OrbitControls( cameraR, container );
@@ -125,13 +136,13 @@ function init() {
 
     // create the renderer and add it to the html
     renderer = new THREE.WebGLRenderer( { antialias: true } );
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.setScissorTest( true );
-	renderer.setAnimationLoop( render );
-	container.appendChild( renderer.domElement );
+	  renderer.setPixelRatio( window.devicePixelRatio );
+  	renderer.setSize( window.innerWidth, window.innerHeight );
+  	renderer.setScissorTest( true );
+  	renderer.setAnimationLoop( render );
+  	container.appendChild( renderer.domElement );
 
-	window.addEventListener( 'resize', onWindowResize );
+  	window.addEventListener( 'resize', onWindowResize );
 
 
     // add some controls to orbit the camera
@@ -149,6 +160,20 @@ function init() {
 
     // handle changes in the window size
     window.addEventListener( 'resize', onWindowResize, false )
+
+    let cubeMap
+ // load hdr cube map
+ // cubeMap = new HDRCubeTextureLoader()
+ //     .setPath( './textures/cube/pisaHDR/' )
+ //     .setDataType( THREE.UnsignedByteType )
+ //     .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ] )
+ 
+ // or, load cube map
+      cubeMap = new THREE.CubeTextureLoader()
+     .setPath('./red ocean/')
+     .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] )
+ 
+    scene.background = cubeMap
 
     // animate()
 }
@@ -239,16 +264,6 @@ function collectResults(responseJson) {
           }
         })
 
-
-        ///////////////////////////////////////////////////////////////////////
-        
-        // render wireframe mesh
-        // object.traverse(child => {
-        //   if (child.isMesh) {
-        //     child.material = new THREE.MeshBasicMaterial({ wireframe: true, color: 'white' })
-        //   }
-        // }, false)
-
         ///////////////////////////////////////////////////////////////////////
 
         // add object graph from rhino model to three.js scene
@@ -258,6 +273,8 @@ function collectResults(responseJson) {
         showSpinner(false)
         downloadButton.disabled = false
 
+        // computeButton.disabled = true
+
         // zoom to extents
         zoomCameraToSelection(cameraR, controls, scene.children)
     })
@@ -266,6 +283,45 @@ function collectResults(responseJson) {
 /**
  * Attempt to decode data tree item to rhino geometry
  */
+ function initSlider() {
+
+const slider = document.querySelector( '#slider' );
+
+function onPointerDown() {
+
+  if ( event.isPrimary === false ) return;
+
+  controls.enabled = false;
+
+  window.addEventListener( 'pointermove', onPointerMove );
+  window.addEventListener( 'pointerup', onPointerUp );
+
+}
+
+function onPointerUp() {
+
+  controls.enabled = true;
+
+  window.removeEventListener( 'pointermove', onPointerMove );
+  window.removeEventListener( 'pointerup', onPointerUp );
+
+}
+
+function onPointerMove( e ) {
+
+  if ( event.isPrimary === false ) return;
+
+  sliderPos = Math.max( 0, Math.min( window.innerWidth, e.pageX ) );
+
+  slider.style.left = sliderPos - ( slider.offsetWidth / 2 ) + "px";
+
+}
+
+slider.style.touchAction = 'none'; // disable touch scroll
+slider.addEventListener( 'pointerdown', onPointerDown );
+
+}
+
 function decodeItem(item) {
   const data = JSON.parse(item.data)
   if (item.type === 'System.String') {
@@ -306,6 +362,7 @@ function onClick( event ) {
   }
 
   // solve and update the geometry!
+
   compute()
 
 }
@@ -322,11 +379,9 @@ function onClick( event ) {
  * Helper function for window resizes (resets the camera pov and renderer size)
   */
 function onWindowResize() {
-  cameraL.aspect = (window.innerWidth/2) / window.innerHeight
-  cameraR.aspect = (window.innerWidth/2) / window.innerHeight
+  cameraL.aspect = window.innerWidth / window.innerHeight
   cameraL.updateProjectionMatrix()
-  cameraR.updateProjectionMatrix()
-  renderer.setSize( window.innerWidth/2, window.innerHeight )
+  renderer.setSize( window.innerWidth, window.innerHeight )
   //animate()
 }
 
@@ -355,13 +410,13 @@ function zoomCameraToSelection( camera, controls, selection, fitOffset = 1.2 ) {
     .normalize()
     .multiplyScalar( distance );
   controls.maxDistance = distance * 10;
-  controls.target.copy( center );
-  
-  camera.near = distance / 100;
-  camera.far = distance * 100;
+  controls.target.copy(center);
+
+  camera.near = distance / 10;
+  camera.far = distance * 10;
   camera.updateProjectionMatrix();
   camera.position.copy( controls.target ).sub(direction);
-  
+
   controls.update();
   
 }
