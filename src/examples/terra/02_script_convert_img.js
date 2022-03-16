@@ -9,7 +9,7 @@ const loader = new Rhino3dmLoader()
 loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
 
 // set up gh definition
-const definition = 'convert_landscape2.gh'
+const definition = 'convert_landscape.gh'
 
 // adding inputs
 
