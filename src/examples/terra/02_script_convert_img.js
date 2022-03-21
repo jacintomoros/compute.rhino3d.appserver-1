@@ -236,7 +236,8 @@ downloadButton.onclick = download
 function rndPts() {
   // generate Inital point
   const startPts = [
-    { x: 581, y: 606, z: 67 } 
+    { x: 27, y: 43, z: 50 } 
+
 
 ]
 const cntPts = startPts.length
@@ -473,12 +474,13 @@ function collectResults(responseJson) {
       }
     });
 
+    
         // add object graph from rhino model to three.js scene
         scene.add( object )
 
         // hide spinner and enable download button
         showSpinner(false)
-        //downloadButton.disabled = false
+        downloadButton.disabled = false
 
         // zoom to extents
         //zoomCameraToSelection(camera, controls, scene.children)
@@ -523,8 +525,9 @@ function decodeItem(item) {
 /**
  * The animation loop!
  */
-function animate() {
+ function animate() {
   requestAnimationFrame( animate )
+  controls.update()
   renderer.render(scene, camera)
 }
 
@@ -541,53 +544,49 @@ function onWindowResize() {
 /**
  * Helper function that behaves like rhino's "zoom to selection", but for three.js!
  */
-function zoomCameraToSelection( camera, controls, selection, fitOffset = 1.2 ) {
+// function zoomCameraToSelection( camera, controls, selection, fitOffset = 1.2 ) {
   
-  const box = new THREE.Box3();
+//   const box = new THREE.Box3();
   
-  for( const object of selection ) {
-    if (object.isLight) continue
-    box.expandByObject( object );
-  }
+//   for( const object of selection ) {
+//     if (object.isLight) continue
+//     box.expandByObject( object );
+//   }
   
-  const size = box.getSize( new THREE.Vector3() );
-  const center = box.getCenter( new THREE.Vector3() );
+//   const size = box.getSize( new THREE.Vector3() );
+//   const center = box.getCenter( new THREE.Vector3() );
   
-  const maxSize = Math.max( size.x, size.y, size.z );
-  const fitHeightDistance = maxSize / ( 2 * Math.atan( Math.PI * camera.fov / 360 ) );
-  const fitWidthDistance = fitHeightDistance / camera.aspect;
-  const distance = fitOffset * Math.max( fitHeightDistance, fitWidthDistance );
+//   const maxSize = Math.max( size.x, size.y, size.z );
+//   const fitHeightDistance = maxSize / ( 2 * Math.atan( Math.PI * camera.fov / 360 ) );
+//   const fitWidthDistance = fitHeightDistance / camera.aspect;
+//   const distance = fitOffset * Math.max( fitHeightDistance, fitWidthDistance );
   
-  const direction = controls.target.clone()
-    .sub( camera.position )
-    .normalize()
-    .multiplyScalar( distance );
-  controls.maxDistance = distance * 10;
-  controls.target.copy( center );
+//   const direction = controls.target.clone()
+//     .sub( camera.position )
+//     .normalize()
+//     .multiplyScalar( distance );
+//   controls.maxDistance = distance * 10;
+//   controls.target.copy( center );
   
-  camera.near = distance / 100;
-  camera.far = distance * 100;
-  camera.updateProjectionMatrix();
-  camera.position.copy( controls.target ).sub(direction);
+//   camera.near = distance / 100;
+//   camera.far = distance * 100;
+//   camera.updateProjectionMatrix();
+//   camera.position.copy( controls.target ).sub(direction);
   
-  controls.update();
+//   controls.update();
   
-}
+// }
 
 /**
  * This function is called when the download button is clicked
  */
-function download () {
-    // write rhino doc to "blob"
-    const bytes = doc.toByteArray()
-    const blob = new Blob([bytes], {type: "application/octect-stream"})
-
-    // use "hidden link" trick to get the browser to download the blob
-    const filename = data.definition.replace(/\.gh$/, '') + '.3dm'
-    const link = document.createElement('a')
-    link.href = window.URL.createObjectURL(blob)
-    link.download = filename
-    link.click()
+ function download (){
+  let buffer = doc.toByteArray()
+  let blob = new Blob([ buffer ], { type: "application/octect-stream" })
+  let link = document.createElement('a')
+  link.href = window.URL.createObjectURL(blob)
+  link.download = 'spatialGreenhouse.3dm'
+  link.click()
 }
 
 /**

@@ -100,14 +100,14 @@
 
 }
 
-button[id="downloadButton"]{
+ button[id="downloadButton"]{
   background: #e5ff00;
 font-size: 40px;  
 padding: 20px 20px 20px 20px;
 margin-top: 10px;
 border-radius: 18px;
+} 
 
-}
   .sidebar ul li .dropdown {
     position: relative;
     display: flex;
