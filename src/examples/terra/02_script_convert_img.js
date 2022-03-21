@@ -222,8 +222,7 @@ rhino3dm().then(async m => {
     console.log('Loaded rhino3dm.')
     rhino = m
 
-    RhinoCompute.url = getAuth( 'http://compute.iaac.net/' ) // RhinoCompute server url. Use http://localhost:8081 if debugging locally.
-    RhinoCompute.apiKey = getAuth( 'macad2022' )  // RhinoCompute server api key. Leave blank if debugging locally.
+    RhinoCompute.url = "http://localhost:8081/"; //if debugging locally.
 
     init()
     rndPts()
