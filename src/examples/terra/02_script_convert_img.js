@@ -1,8 +1,25 @@
-// Import libraries
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.126.0/build/three.module.js";
-import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.126.0/examples/jsm/controls/OrbitControls.js";
-import rhino3dm from "https://cdn.jsdelivr.net/npm/rhino3dm@7.11.1/rhino3dm.module.js";
-import { Rhino3dmLoader } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js";
+//Script by MaCAD's Digital Tool for Data-Cloud Management Faculty
+//David Andrés León and Hesham Sawqy
+//Updates by Jacinto Jesús Moros Montañés
+
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.126.0/build/three.module.js'
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.126.0/examples/jsm/controls/OrbitControls.js'
+import { Rhino3dmLoader } from 'https://cdn.jsdelivr.net/npm/three@0.126.0/examples/jsm/loaders/3DMLoader.js'
+import rhino3dm from 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/rhino3dm.module.js'
+import { TransformControls } from "https://cdn.jsdelivr.net/npm/three@0.126.0/examples/jsm/controls/TransformControls.js";
+
+// We set up first the menu appearance
+let btn = document.querySelector("#btn");
+let sidebar = document.querySelector(".sidebar");
+let imageAdd = document.querySelector(".bx-image-add");
+
+btn.onclick = function(){
+  sidebar.classList.toggle("active");
+}
+
+imageAdd.onclick = function(){
+  sidebar.classList.toggle("active");
+}
 
 // set up loader for converting the results to threejs
 const loader = new Rhino3dmLoader()
@@ -12,8 +29,14 @@ loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/' )
 const definition = 'convert_landscape.gh'
 
 // adding inputs
-
 const fileInput = document.getElementById("img");
+
+img.onchange = evt => {
+  const [file] = img.files
+  if (file) {
+    blah.src = URL.createObjectURL(file)
+  }
+}
 
 fileInput.addEventListener("change", (e) => {
     // get a reference to the file
@@ -31,7 +54,31 @@ fileInput.addEventListener("change", (e) => {
     reader.readAsDataURL(file);
   });
 
+  //initialize fixity values
+var analyzeval = 0;
 
+// Set up texts
+
+const terrain = document.getElementById('terrain');
+terrain.addEventListener('click', radioClick);
+const slope = document.getElementById('slope');
+slope.addEventListener('click', radioClick);
+const concavity = document.getElementById('concavity');
+concavity.addEventListener('click', radioClick);
+const elevation = document.getElementById('elevation');
+elevation.addEventListener('click', radioClick);
+const rougness = document.getElementById('rougness');
+rougness.addEventListener('click', radioClick);
+const shade = document.getElementById('shade');
+shade.addEventListener('click', radioClick);
+const orientation = document.getElementById('orientation');
+orientation.addEventListener('click', radioClick);
+const viewshed = document.getElementById('viewshed');
+viewshed.addEventListener('click', radioClick);
+const watershed = document.getElementById('watershed');
+watershed.addEventListener('click', radioClick);
+const location = document.getElementById('location');
+location.addEventListener('click', radioClick);
 
 const obPath = document.getElementById('obPath')
 obPath.addEventListener('input', onChange, false)
@@ -70,10 +117,6 @@ const minrou_slider = document.getElementById( 'Min Roughness' )
 minrou_slider.addEventListener( 'mouseup', onSliderChange, false )
 minrou_slider.addEventListener( 'touchend', onSliderChange, false )
 
-const anal_slider = document.getElementById( 'Analyze' )
-anal_slider.addEventListener( 'mouseup', onSliderChange, false )
-anal_slider.addEventListener( 'touchend', onSliderChange, false )
-
 const xvec_slider = document.getElementById( 'X Vector' )
 xvec_slider.addEventListener( 'mouseup', onSliderChange, false )
 xvec_slider.addEventListener( 'touchend', onSliderChange, false )
@@ -95,9 +138,83 @@ minpend_slider.addEventListener( 'mouseup', onSliderChange, false )
 minpend_slider.addEventListener( 'touchend', onSliderChange, false )
 
 
+// Get number slider
+
+const resVal = document.getElementById("resVal");
+resVal.innerHTML = res_slider.value;
+res_slider.oninput = function(){
+  resVal.innerHTML = this.value;
+}
+
+const minSlopeVal = document.getElementById("minSlopeVal");
+minSlopeVal.innerHTML = minslope_slider.value;
+minslope_slider.oninput = function(){
+  minSlopeVal.innerHTML = this.value;
+}
+
+const maxSlopeVal = document.getElementById("maxSlopeVal");
+maxSlopeVal.innerHTML = maxslope_slider.value;
+maxslope_slider.oninput = function(){
+maxSlopeVal.innerHTML = this.value;
+}
+
+const maxConcaVal = document.getElementById("maxConcaVal");
+maxConcaVal.innerHTML = maxconca_slider.value;
+maxconca_slider.oninput = function(){
+  maxConcaVal.innerHTML = this.value;
+}
+
+const minConcaVal = document.getElementById("minConcaVal");
+minConcaVal.innerHTML = minconca_slider.value;
+minconca_slider.oninput = function(){
+  minConcaVal.innerHTML = this.value;
+}
+
+const maxRoughVal = document.getElementById("maxRoughVal");
+maxRoughVal.innerHTML = maxrou_slider.value;
+maxrou_slider.oninput = function(){
+  maxRoughVal.innerHTML = this.value;
+}
+
+const minRoughVal = document.getElementById("minRoughVal");
+minRoughVal.innerHTML = minrou_slider.value;
+minrou_slider.oninput = function(){
+  minRoughVal.innerHTML = this.value;
+}
+
+const maxPendVal = document.getElementById("maxPendVal");
+maxPendVal.innerHTML = maxpend_slider.value;
+maxpend_slider.oninput = function(){
+  maxPendVal.innerHTML = this.value;
+}
+
+const minPendVal = document.getElementById("minPendVal");
+minPendVal.innerHTML = minpend_slider.value;
+minpend_slider.oninput = function(){
+  minPendVal.innerHTML = this.value;
+}
+
+const xVal = document.getElementById("xVal");
+xVal.innerHTML = xvec_slider.value;
+xvec_slider.oninput = function(){
+  xVal.innerHTML = this.value;
+}
+
+const yVal = document.getElementById("yVal");
+yVal.innerHTML = yvec_slider.value;
+yvec_slider.oninput = function(){
+  yVal.innerHTML = this.value;
+}
+
+const zVal = document.getElementById("zVal");
+zVal.innerHTML = zvec_slider.value;
+zvec_slider.oninput = function(){
+  zVal.innerHTML = this.value;
+}
+
 // globals
 
-let points = [];
+let point = [];
 let rhino, doc
 
 rhino3dm().then(async m => {
@@ -119,7 +236,8 @@ downloadButton.onclick = download
 function rndPts() {
   // generate Inital point
   const startPts = [
-    { x: 27, y: 8, z: 0 }
+    { x: 581, y: 606, z: 67 } 
+
 ]
 const cntPts = startPts.length
 
@@ -132,10 +250,10 @@ const cntPts = startPts.length
 
     console.log( `x ${x} y ${y}` )
 
-    points.push(pt)
+    point.push(pt)
 
     //viz in three
-    const icoGeo = new THREE.SphereGeometry(50)
+    const icoGeo = new THREE.SphereGeometry(5)
     const icoMat = new THREE.MeshNormalMaterial(50)
     const ico = new THREE.Mesh( icoGeo, icoMat )
     ico.name = 'ico'
@@ -145,9 +263,9 @@ const cntPts = startPts.length
     let tcontrols = new TransformControls( camera, renderer.domElement )
     tcontrols.enabled = true
     tcontrols.attach( ico )
-    tcontrols.showZ = false
+    //tcontrols.showZ = false
     tcontrols.addEventListener( 'dragging-changed', onChange )
-    tcontrols.setSize(.5)
+    tcontrols.setSize(.2)
     scene.add(tcontrols)
     
   }
@@ -160,11 +278,11 @@ function onChange() {
   dragging = ! dragging
   if ( !dragging ) {
     // update points position
-    points = []
+    point = []
     scene.traverse(child => {
       if ( child.name === 'ico' ) {
         const pt = "{\"X\":" + child.position.x + ",\"Y\":" + child.position.y + ",\"Z\":" + child.position.z + "}"
-        points.push( pt )
+        point.push( pt )
         console.log(pt)
       }
     }, false)
@@ -179,6 +297,21 @@ function onChange() {
 
 }
 
+//function sets fixity values on click and recomputes
+function radioClick(){
+
+  const analyzeButtons = document.querySelectorAll('input[name="analyzeBottom"]');
+    for (const analyzeButton of analyzeButtons){
+        if (analyzeButton.checked){
+            analyzeval = analyzeButton.value;
+        return;
+      
+    }}
+    
+  // show spinner
+  // document.getElementById('loader').style.display = 'block'
+  // compute()
+}
 
 // more globals
 let scene, camera, renderer, controls
@@ -192,13 +325,17 @@ function init() {
     THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 0, 1 );
 
     // create a scene and a camera
-    scene = new THREE.Scene()
-    scene.background = new THREE.Color(1, 1, 1)
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
-    camera.position.set(1, -1, 1) // like perspective view
-
-    // very light grey for background, like rhino
-    scene.background = new THREE.Color('whitesmoke')
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(1, 1, 1);
+    camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      1,
+      10000
+    );
+    camera.position.x = 1000;
+    camera.position.y = 1000;
+    camera.position.z = 1000;
 
     // create the renderer and add it to the html
     renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -218,15 +355,15 @@ function init() {
     scene.add( ambientLight )
 
     let cubeMap
- // load hdr cube map
- // cubeMap = new HDRCubeTextureLoader()
- //     .setPath( './textures/cube/pisaHDR/' )
- //     .setDataType( THREE.UnsignedByteType )
- //     .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ] )
+//  // load hdr cube map
+//  // cubeMap = new HDRCubeTextureLoader()
+//  //     .setPath( './textures/cube/pisaHDR/' )
+//  //     .setDataType( THREE.UnsignedByteType )
+//  //     .load( [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ] )
  
- // or, load cube map
+//  // or, load cube map
       cubeMap = new THREE.CubeTextureLoader()
-     .setPath('./red ocean/')
+     .setPath('./gradient/')
      .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] )
  
     scene.background = cubeMap
@@ -253,14 +390,13 @@ async function compute() {
      'Min Conca': minconca_slider.valueAsNumber,
      'Max Roughness': maxrou_slider.valueAsNumber,
      'Min Roughness': minrou_slider.valueAsNumber,
-     'Analyze': anal_slider.valueAsNumber,
+     'Analyze': analyzeval,
      'X Vector': xvec_slider.valueAsNumber,
      'Y Vector': yvec_slider.valueAsNumber,
      'Z Vector': zvec_slider.valueAsNumber,
      'Max Pend': maxpend_slider.valueAsNumber,
      'Min Pend': minpend_slider.valueAsNumber,
-     'point': points
-
+     'point': point,
       }
   }
 
@@ -324,34 +460,28 @@ function collectResults(responseJson) {
       return
     }
 
-    // load rhino doc into three.js scene
-    const buffer = new Uint8Array(doc.toByteArray()).buffer
-    loader.parse( buffer, function ( object ) 
-    {
-        // debug 
-        /*
-        object.traverse(child => {
-          if (child.material !== undefined)
-            child.material = new THREE.MeshNormalMaterial()
-        }, false)
-        */
-
-        // clear objects from scene. do this here to avoid blink
-        scene.traverse(child => {
-            if (!child.isLight) {
-                scene.remove(child)
-            }
-        })
+      // load rhino doc into three.js scene
+  const buffer = new Uint8Array(doc.toByteArray()).buffer;
+  loader.parse(buffer, function (object) {
+    // clear objects from scene
+    scene.traverse((child) => {
+      if (
+        child.userData.hasOwnProperty("objectType") &&
+        child.userData.objectType === "File3dm"
+      ) {
+        scene.remove(child);
+      }
+    });
 
         // add object graph from rhino model to three.js scene
         scene.add( object )
 
         // hide spinner and enable download button
         showSpinner(false)
-        downloadButton.disabled = false
+        //downloadButton.disabled = false
 
         // zoom to extents
-        zoomCameraToSelection(camera, controls, scene.children)
+        //zoomCameraToSelection(camera, controls, scene.children)
     })
 }
 
@@ -395,7 +525,6 @@ function decodeItem(item) {
  */
 function animate() {
   requestAnimationFrame( animate )
-  controls.update()
   renderer.render(scene, camera)
 }
 
