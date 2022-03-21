@@ -516,9 +516,26 @@ function decodeItem(item) {
 //   compute();
 // }
 
- function onSliderChange() {
-  // show spinner
-  document.getElementById('loader').style.display = 'flex'
+function onSliderChange () {
+  showSpinner(true)
+  // get slider values
+  /*let inputs = {}
+  for (const input of document.getElementsByTagName('input')) {
+    switch (input.type) {
+    case 'number':
+      inputs[input.id] = input.valueAsNumber
+      break
+    case 'range':
+      inputs[input.id] = input.valueAsNumber
+      break
+    case 'checkbox':
+      inputs[input.id] = input.checked
+      break
+    }
+  }
+  
+  data.inputs = inputs*/
+
   compute()
 }
 
