@@ -585,7 +585,7 @@ function onWindowResize() {
   let blob = new Blob([ buffer ], { type: "application/octect-stream" })
   let link = document.createElement('a')
   link.href = window.URL.createObjectURL(blob)
-  link.download = 'spatialGreenhouse.3dm'
+  link.download = 'bimsc22_landscape.3dm'
   link.click()
 }
 
