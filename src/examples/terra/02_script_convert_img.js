@@ -221,6 +221,9 @@ rhino3dm().then(async m => {
     console.log('Loaded rhino3dm.')
     rhino = m
 
+    RhinoCompute.url = getAuth( 'RHINO_COMPUTE_URL' ) // RhinoCompute server url. Use http://localhost:8081 if debugging locally.
+    RhinoCompute.apiKey = getAuth( 'RHINO_COMPUTE_KEY' )  // RhinoCompute server api key. Leave blank if debugging locally.
+
     init()
     rndPts()
     compute()
@@ -516,26 +519,9 @@ function decodeItem(item) {
 //   compute();
 // }
 
-function onSliderChange () {
-  showSpinner(true)
-  // get slider values
-  /*let inputs = {}
-  for (const input of document.getElementsByTagName('input')) {
-    switch (input.type) {
-    case 'number':
-      inputs[input.id] = input.valueAsNumber
-      break
-    case 'range':
-      inputs[input.id] = input.valueAsNumber
-      break
-    case 'checkbox':
-      inputs[input.id] = input.checked
-      break
-    }
-  }
-  
-  data.inputs = inputs*/
-
+ function onSliderChange() {
+  // show spinner
+  document.getElementById('loader').style.display = 'flex'
   compute()
 }
 
