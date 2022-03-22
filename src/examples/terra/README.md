@@ -1,5 +1,5 @@
 # USERS
--**Students and Landscape designers
+Students and Landscape designers
 
 # INPUTS
 - **01_Upload Heightmap Image**
