@@ -29,7 +29,7 @@ Students and Landscape designers
 
 ## OUTPUTS
 - **MESH TERRAIN**: you can decide export terrain with the colors of the analyze type.
-- **CRV SLOPES AND ELEVATION**: you can decide export terrain with the colors of the analyze type.
+- **CRV SLOPES AND ELEVATION**: export elevation, slope crvs.
 - **TAGS**: They specify high and low values for each analyze.
 - **Download**: Download result
 
