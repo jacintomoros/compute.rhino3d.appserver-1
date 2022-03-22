@@ -2,10 +2,10 @@
 Landscape Web App done in MaCAD BIMSC22.
 
 ### Digital Tools for Cloud-based Data Management
-### TERRA is a project of IAAC, Institute for Advanced Architecture of Catalonia developed in the Master In Advanced Computation For Architecture & Design  2021/22
-### Student: Jacinto Jesús Moros Montañés
-### Faculty: David Andres Leon
-### Faculty Assistant: Hesham Shawqy
+#### TERRA is a project of IAAC, Institute for Advanced Architecture of Catalonia developed in the Master In Advanced Computation For Architecture & Design  2021/22
+##### Student: Jacinto Jesús Moros Montañés
+##### Faculty: David Andres Leon
+##### Faculty Assistant: Hesham Shawqy
 
 ## USERS
 Students and Landscape designers
