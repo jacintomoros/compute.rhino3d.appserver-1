@@ -1,5 +1,4 @@
-# TERRA
-Landscape Web App done in MaCAD BIMSC22.
+# TERRA: Landscape Web App done in MaCAD BIMSC22.
 
 ### Digital Tools for Cloud-based Data Management
 #### TERRA is a project of IAAC, Institute for Advanced Architecture of Catalonia developed in the Master In Advanced Computation For Architecture & Design  2021/22
