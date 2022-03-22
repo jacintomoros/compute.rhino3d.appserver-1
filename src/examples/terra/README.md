@@ -1,6 +1,12 @@
+# USERS
+-**Students and Landscape designers
+
 # INPUTS
-- **01_Create Own Landscape**
-- **02_Input already existing landscape**
+- **01_Upload Heightmap Image**
+- **02_Set minimum and maximum height elevation**
+
+## ANALYZE TOOLS
+- **
 
 ## Features Creating Landscape
 - **Easy to get started**: clicking you modelate your landscape
@@ -14,5 +20,3 @@
 
 ## PLUGINS
 - **BISON**
-- **LADYBUG**
-- **NOT SURE......DOCOFOSSOR**
