@@ -17,7 +17,7 @@ Students and Landscape designers
 - 06_Set Sunlight direction
 - 07_Set Oreintation Range
 
-## POINT
+## INTERACTIVE POINT
 - **01_VIEWSHED**:  Depending on where you locate the point you will receive the areas of visibilty.
 - **02_WATERSHED**:  Streams flowlines that converge to the point located previously.
 
@@ -27,7 +27,7 @@ Students and Landscape designers
 - **TAGS**: They specify high and low values for each analyze.
 - **Download**: Download result
 
-## PLUGINS
+## PLUGINS USED
 - **BISON**
 
 ## CHALLENGES & THOUGHTS
