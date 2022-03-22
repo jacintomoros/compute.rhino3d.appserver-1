@@ -1,14 +1,21 @@
-TERRA
+# TERRA
+Landscape Web App done in MaCAD BIMSC22.
 
-# USERS
+## USERS
 Students and Landscape designers
 
-# INPUTS
+## INPUTS
 - **01_Upload Heightmap Image**
 - **02_Set minimum and maximum height elevation**
 
-## ANALYZE TOOLS
-- **
+## ANALYZE AND SET PARAMETERS
+- **01_Resolution
+- **02_Choose Analyze type
+- ***Terrain
+- **03_Resolution
+- **04_Resolution
+- **05_Resolution
+- **06_Resolution
 
 ## Features Creating Landscape
 - **Easy to get started**: clicking you modelate your landscape
