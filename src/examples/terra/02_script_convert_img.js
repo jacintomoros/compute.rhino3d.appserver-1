@@ -38,8 +38,6 @@ img.onchange = evt => {
   }
 }
 
-
-
 fileInput.addEventListener("change", (e) => {
     // get a reference to the file
     const file = e.target.files[0];
@@ -55,8 +53,6 @@ fileInput.addEventListener("change", (e) => {
     };
     reader.readAsDataURL(file);
   });
-
-
 
   //initialize fixity values
 var analyzeval = 0;
@@ -84,7 +80,7 @@ watershed.addEventListener('click', radioClick);
 const location = document.getElementById('location');
 location.addEventListener('click', radioClick);
 
-const obPath = document.getElementById('Upload Image')
+const obPath = document.getElementById('obPath')
 obPath.addEventListener('input', onChange, false)
 
 const maxelev = document.getElementById('Max Elevation')
@@ -386,7 +382,7 @@ async function compute() {
     definition: definition,
     inputs: {
      'Resolution': res_slider.valueAsNumber,
-     'Upload Image': obPath.value,
+     'Upload Image': obPath.innerText,
      'Max Elevation': maxelev.value,
      'Min Elevation': minelev.value,
      'Max Slope': maxslope_slider.valueAsNumber,
