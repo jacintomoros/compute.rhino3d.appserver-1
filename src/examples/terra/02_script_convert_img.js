@@ -38,6 +38,8 @@ img.onchange = evt => {
   }
 }
 
+
+
 fileInput.addEventListener("change", (e) => {
     // get a reference to the file
     const file = e.target.files[0];
