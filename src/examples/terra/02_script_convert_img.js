@@ -56,6 +56,8 @@ fileInput.addEventListener("change", (e) => {
     reader.readAsDataURL(file);
   });
 
+
+
   //initialize fixity values
 var analyzeval = 0;
 
@@ -82,7 +84,7 @@ watershed.addEventListener('click', radioClick);
 const location = document.getElementById('location');
 location.addEventListener('click', radioClick);
 
-const obPath = document.getElementById('obPath')
+const obPath = document.getElementById('Upload Image')
 obPath.addEventListener('input', onChange, false)
 
 const maxelev = document.getElementById('Max Elevation')
@@ -384,7 +386,7 @@ async function compute() {
     definition: definition,
     inputs: {
      'Resolution': res_slider.valueAsNumber,
-     'Upload Image': obPath.innerText,
+     'Upload Image': obPath.value,
      'Max Elevation': maxelev.value,
      'Min Elevation': minelev.value,
      'Max Slope': maxslope_slider.valueAsNumber,
