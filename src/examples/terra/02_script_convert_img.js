@@ -90,52 +90,52 @@ const minelev = document.getElementById('Min Elevation')
 minelev.addEventListener('input', onChange, false)
 
 const res_slider = document.getElementById( 'Resolution' )
-res_slider.addEventListener( 'mouseup', onSliderChange, false )
-res_slider.addEventListener( 'touchend', onSliderChange, false )
+res_slider.addEventListener( 'mouseup', onChange, false )
+res_slider.addEventListener( 'touchend', onChange, false )
 
 const maxslope_slider = document.getElementById( 'Max Slope' )
-maxslope_slider.addEventListener( 'mouseup', onSliderChange, false )
-maxslope_slider.addEventListener( 'touchend', onSliderChange, false )
+maxslope_slider.addEventListener( 'mouseup', onChange, false )
+maxslope_slider.addEventListener( 'touchend', onChange, false )
 
 const minslope_slider = document.getElementById( 'Min Slope' )
-minslope_slider.addEventListener( 'mouseup', onSliderChange, false )
-minslope_slider.addEventListener( 'touchend', onSliderChange, false )
+minslope_slider.addEventListener( 'mouseup', onChange, false )
+minslope_slider.addEventListener( 'touchend', onChange, false )
 
 const maxconca_slider = document.getElementById( 'Max Conca' )
-maxconca_slider.addEventListener( 'mouseup', onSliderChange, false )
-maxconca_slider.addEventListener( 'touchend', onSliderChange, false )
+maxconca_slider.addEventListener( 'mouseup', onChange, false )
+maxconca_slider.addEventListener( 'touchend', onChange, false )
 
 const minconca_slider = document.getElementById( 'Min Conca' )
-minconca_slider.addEventListener( 'mouseup', onSliderChange, false )
-minconca_slider.addEventListener( 'touchend', onSliderChange, false )
+minconca_slider.addEventListener( 'mouseup', onChange, false )
+minconca_slider.addEventListener( 'touchend', onChange, false )
 
 const maxrou_slider = document.getElementById( 'Max Roughness' )
-maxrou_slider.addEventListener( 'mouseup', onSliderChange, false )
-maxrou_slider.addEventListener( 'touchend', onSliderChange, false )
+maxrou_slider.addEventListener( 'mouseup', onChange, false )
+maxrou_slider.addEventListener( 'touchend', onChange, false )
 
 const minrou_slider = document.getElementById( 'Min Roughness' )
-minrou_slider.addEventListener( 'mouseup', onSliderChange, false )
-minrou_slider.addEventListener( 'touchend', onSliderChange, false )
+minrou_slider.addEventListener( 'mouseup', onChange, false )
+minrou_slider.addEventListener( 'touchend', onChange, false )
 
 const xvec_slider = document.getElementById( 'X Vector' )
-xvec_slider.addEventListener( 'mouseup', onSliderChange, false )
-xvec_slider.addEventListener( 'touchend', onSliderChange, false )
+xvec_slider.addEventListener( 'mouseup', onChange, false )
+xvec_slider.addEventListener( 'touchend', onChange, false )
 
 const yvec_slider = document.getElementById( 'Y Vector' )
-yvec_slider.addEventListener( 'mouseup', onSliderChange, false )
-yvec_slider.addEventListener( 'touchend', onSliderChange, false )
+yvec_slider.addEventListener( 'mouseup', onChange, false )
+yvec_slider.addEventListener( 'touchend', onChange, false )
 
 const zvec_slider = document.getElementById( 'Z Vector' )
-zvec_slider.addEventListener( 'mouseup', onSliderChange, false )
-zvec_slider.addEventListener( 'touchend', onSliderChange, false )
+zvec_slider.addEventListener( 'mouseup', onChange, false )
+zvec_slider.addEventListener( 'touchend', onChange, false )
 
 const maxpend_slider = document.getElementById( 'Max Pend' )
-maxpend_slider.addEventListener( 'mouseup', onSliderChange, false )
-maxpend_slider.addEventListener( 'touchend', onSliderChange, false )
+maxpend_slider.addEventListener( 'mouseup', onChange, false )
+maxpend_slider.addEventListener( 'touchend', onChange, false )
 
 const minpend_slider = document.getElementById( 'Min Pend' )
-minpend_slider.addEventListener( 'mouseup', onSliderChange, false )
-minpend_slider.addEventListener( 'touchend', onSliderChange, false )
+minpend_slider.addEventListener( 'mouseup', onChange, false )
+minpend_slider.addEventListener( 'touchend', onChange, false )
 
 
 // Get number slider

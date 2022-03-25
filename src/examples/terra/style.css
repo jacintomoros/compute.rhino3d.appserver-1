@@ -142,6 +142,8 @@ opacity: 1;
     max-height:auto;
     align-items:center;
     display:flex;
+    pointer-events: none;
+
 }
 
 p[id="obPath"]{
